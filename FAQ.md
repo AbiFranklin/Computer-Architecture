@@ -1,4 +1,4 @@
-# Computer Architecture FAQ
+# Computer Architecture FAQ - A. Franklin
 
 ## Contents
 

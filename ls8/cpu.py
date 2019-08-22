@@ -6,22 +6,15 @@ class CPU:
     """Main CPU class."""
 
     def __init__(self):
-        self.memory = [0] * 256
-        self.R0 = [0] * 8
-        self.R1 = [0] * 8
-        self.R2 = [0] * 8
-        self.R3 = [0] * 8
-        self.R4 = [0] * 8
-        self.R5 = [0] * 8
-        self.R6 = [0] * 8
-        self.R7 = [0] * 8
-        self.PC = 0
+        self.ram = [0] * 256
+        self.reg = [0] * 8
+        self.pc = 0
 
     def ram_read(self, MAR):
-        return self.memory[address]
+        return self.ram[MAR]
 
     def ram_write(self, MAR, MDR):
-        self.memory[address] = value
+        self.ram[MAR] = MDR
 
     def load(self):
         """Load a program into memory."""
@@ -75,5 +68,4 @@ class CPU:
         print()
 
     def run(self):
-        """Run the CPU."""
-        pass
+        

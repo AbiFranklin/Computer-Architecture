@@ -17,10 +17,10 @@ class CPU:
         self.R7 = [0] * 8
         self.PC = 0
 
-    def ram_read(self, address):
+    def ram_read(self, MAR):
         return self.memory[address]
 
-    def ram_write(self, address, value):
+    def ram_write(self, MAR, MDR):
         self.memory[address] = value
 
     def load(self):

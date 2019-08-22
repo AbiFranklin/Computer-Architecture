@@ -20,6 +20,9 @@ class CPU:
     def ram_read(self, address):
         return self.memory[address]
 
+    def ram_write(self, address, value):
+        self.memory[address] = value
+
     def load(self):
         """Load a program into memory."""
 

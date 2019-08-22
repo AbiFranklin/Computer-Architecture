@@ -17,6 +17,9 @@ class CPU:
         self.R7 = [0] * 8
         self.PC = 0
 
+    def ram_read(self, address):
+        return self.memory[address]
+
     def load(self):
         """Load a program into memory."""
 

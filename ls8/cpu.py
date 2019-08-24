@@ -68,4 +68,7 @@ class CPU:
         print()
 
     def run(self):
-        
+        running = True
+        while running:
+            IR = self.ram[self.pc]
+

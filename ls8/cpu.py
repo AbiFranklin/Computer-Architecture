@@ -9,9 +9,7 @@ class CPU:
         self.ram = [0] * 256
         self.reg = [0] * 8
         self.pc = 0
-        self.SP = 7
-
-        self.reg[self.SP] = []
+        self.SP = 0
 
     def ram_read(self, MAR):
         return self.ram[MAR]
@@ -89,12 +87,19 @@ class CPU:
                 self.alu("MUL", operand_a, operand_b)
                 self.pc += 3
             elif IR == PUSH:
-                val = self.reg[operand_a]
-                self.reg[self.SP].append(val)
+                self.reg[7] = (self.reg[7] - 1) % 255
+                self.SP = self.reg[7]
+                regadd = operand_a
+                val = self.reg[regadd]
+                self.ram[self.SP] = val
                 self.pc += 2
             elif IR == POP:
-                val = self.reg[self.SP].pop()
-                self.reg[operand_a] = val
+                self.SP = self.reg[7]
+                val = self.ram[self.SP]
+                regadd = operand_a
+                self.reg[regadd] = val
+                self.reg[7] = (self.reg[7] + 1) % 255
+                self.SP = self.reg[7]
                 self.pc += 2
             else:
                 print('Error')

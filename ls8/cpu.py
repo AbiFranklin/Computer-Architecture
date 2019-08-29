@@ -11,7 +11,7 @@ class CPU:
         self.pc = 0
         self.SP = 7
 
-        self.reg[7] =  0xF4
+        self.reg[self.SP] = []
 
     def ram_read(self, MAR):
         return self.ram[MAR]
@@ -89,19 +89,12 @@ class CPU:
                 self.alu("MUL", operand_a, operand_b)
                 self.pc += 3
             elif IR == PUSH:
-                self.SP -= 1
-                regval = self.ram[self.pc+1]
-                
+                val = self.reg[operand_a]
+                self.reg[self.SP].append(val)
                 self.pc += 2
-                1. Decrement the `SP`.
-2. Copy the value in the given register to the address pointed to by
-   `SP`.
             elif IR == POP:
-                val = self.ram[self.reg[self.SP]]
-                # print(val)
-                # regval = self.ram[self.pc + 1]
-                # self.reg[regval] = val
-                # self.reg[self.SP] += 1
+                val = self.reg[self.SP].pop()
+                self.reg[operand_a] = val
                 self.pc += 2
             else:
                 print('Error')

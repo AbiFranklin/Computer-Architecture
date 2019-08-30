@@ -11,6 +11,8 @@ class CPU:
         self.pc = 0
         self.SP = 0
 
+    self.reg[7] = 0xF3
+
     def ram_read(self, MAR):
         return self.ram[MAR]
 
@@ -99,8 +101,14 @@ class CPU:
                 regadd = operand_a
                 self.reg[regadd] = val
                 self.reg[7] = (self.reg[7] + 1) % 255
-                self.SP = self.reg[7]
                 self.pc += 2
+            elif IR == CALL:
+                regadd = operand_a
+                calladd = self.reg[regadd]
+                nextinst = self.pc + 2
+                self.reg[7] = (self.reg[7] - 1) % 255
+                self.SP = self.reg[7]
+                self.ram[self.SP] = nextinst
             else:
                 print('Error')
                 sys.exit()

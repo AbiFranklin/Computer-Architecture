@@ -109,6 +109,11 @@ class CPU:
                 self.reg[7] = (self.reg[7] - 1) % 255
                 self.SP = self.reg[7]
                 self.ram[self.SP] = nextinst
+            elif IR == RET:
+                self.SP = self.reg[7]
+                retadd = self.ram[self.SP]
+                self.reg[7] = (self.reg[7] + 1) % 255
+                self.pc = retadd
             else:
                 print('Error')
                 sys.exit()

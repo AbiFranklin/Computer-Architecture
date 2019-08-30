@@ -9,9 +9,9 @@ class CPU:
         self.ram = [0] * 256
         self.reg = [0] * 8
         self.pc = 0
-        self.SP = 7
+        self.SP = 0
 
-        self.reg[7] =  0xF4
+    self.reg[7] = 0xF3
 
     def ram_read(self, MAR):
         return self.ram[MAR]
@@ -89,20 +89,31 @@ class CPU:
                 self.alu("MUL", operand_a, operand_b)
                 self.pc += 3
             elif IR == PUSH:
-                self.SP -= 1
-                regval = self.ram[self.pc+1]
-                
+                self.reg[7] = (self.reg[7] - 1) % 255
+                self.SP = self.reg[7]
+                regadd = operand_a
+                val = self.reg[regadd]
+                self.ram[self.SP] = val
                 self.pc += 2
-                1. Decrement the `SP`.
-2. Copy the value in the given register to the address pointed to by
-   `SP`.
             elif IR == POP:
-                val = self.ram[self.reg[self.SP]]
-                # print(val)
-                # regval = self.ram[self.pc + 1]
-                # self.reg[regval] = val
-                # self.reg[self.SP] += 1
+                self.SP = self.reg[7]
+                val = self.ram[self.SP]
+                regadd = operand_a
+                self.reg[regadd] = val
+                self.reg[7] = (self.reg[7] + 1) % 255
                 self.pc += 2
+            elif IR == CALL:
+                regadd = operand_a
+                calladd = self.reg[regadd]
+                nextinst = self.pc + 2
+                self.reg[7] = (self.reg[7] - 1) % 255
+                self.SP = self.reg[7]
+                self.ram[self.SP] = nextinst
+            elif IR == RET:
+                self.SP = self.reg[7]
+                retadd = self.ram[self.SP]
+                self.reg[7] = (self.reg[7] + 1) % 255
+                self.pc = retadd
             else:
                 print('Error')
                 sys.exit()
